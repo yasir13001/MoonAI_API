@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Moon Data API Client</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+    }
+    input, select, button {
+      padding: 6px;
+      margin: 5px 0;
+      width: 100%;
+      max-width: 300px;
+    }
+    label {
+      font-weight: bold;
+    }
+    #output {
+      margin-top: 20px;
+      white-space: pre-wrap;
+      background-color: #f9f9f9;
+      padding: 15px;
+      border: 1px solid #ccc;
+      max-width: 800px;
+    }
+  </style>
+</head>
+<body>
+  <h2>🌙 Moon Data Request</h2>
+
+  <form id="moonForm">
+    <label for="city">City (optional):</label><br>
+    <input type="text" id="city" placeholder="e.g., Karachi" /><br>
+
+    <label for="lat">Latitude:</label><br>
+    <input type="number" id="lat" step="any" required /><br>
+
+    <label for="lon">Longitude:</label><br>
+    <input type="number" id="lon" step="any" required /><br>
+
+    <label for="elevation">Elevation (meters):</label><br>
+    <input type="number" id="elevation" value="0" /><br>
+
+    <label for="date">Date (dd-mm-yyyy):</label><br>
+    <input type="text" id="date" placeholder="28-02-2025" required /><br>
+
+    <label for="timezone">Timezone:</label><br>
+    <select id="timezone" required>
+      <option value="">--Select Timezone--</option>
+      <option value="Asia/Karachi">Asia/Karachi</option>
+      <option value="UTC">UTC</option>
+      <option value="Asia/Dubai">Asia/Dubai</option>
+      <option value="Asia/Riyadh">Asia/Riyadh</option>
+      <option value="America/New_York">America/New_York</option>
+      <option value="Europe/London">Europe/London</option>
+    </select><br><br>
+
+    <button type="submit">Get Moon Data</button>
+  </form>
+
+  <div id="output"></div>
+
+  <script>
+    const form = document.getElementById('moonForm');
+    const output = document.getElementById('output');
+
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      const lat = parseFloat(document.getElementById('lat').value);
+      const lon = parseFloat(document.getElementById('lon').value);
+      const elevation = parseFloat(document.getElementById('elevation').value);
+      const date = document.getElementById('date').value;
+      const timezone = document.getElementById('timezone').value;
+
+      const payload = {
+        lat: lat,
+        lon: lon,
+        elevation: elevation,
+        date: date,
+        timezone: timezone
+      };
+
+      try {
+        const response = await fetch('/moon_data', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) {
+          throw new Error('Server error: ' + response.status);
+        }
+
+        const data = await response.json();
+        output.textContent = JSON.stringify(data, null, 2);
+      } catch (error) {
+        output.textContent = 'Error: ' + error.message;
+      }
+    });
+  </script>
+</body>
+</html>

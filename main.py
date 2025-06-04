@@ -3,8 +3,18 @@ from pydantic import BaseModel
 from datetime import datetime
 import pytz
 from Moon_Calculations  import get_moon_parameters,calculate_q_and_visibility, get_sunset_time
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse,PlainTextResponse
+import os
 
 app = FastAPI()
+
+# Serve index.html at the root URL
+@app.get("/")
+async def read_index():
+    return FileResponse("index.html")
+# app.mount("/static", StaticFiles(directory="."), name="static")
+
 
 class MoonRequest(BaseModel):
     lat: float

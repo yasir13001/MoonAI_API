@@ -1,10 +1,8 @@
 import ephem
 import numpy as np
 from datetime import datetime,timedelta
-from astropy.time import Time
 import pandas as pd
 import math
-
 
 
 def get_sunset_time(lat, lon, date,elevation=0,pressure=1013.25, horizon='0', epoch='2000'):
@@ -200,9 +198,6 @@ def calculate_all_locations(locations, date_str):
     }, inplace=True)
 
     return df
-
-
-
 
 locations = [
     {"Station": "Karachi", "lat": 24.8607, "lon": 67.0011, "elevation": 10},
