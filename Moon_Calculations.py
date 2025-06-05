@@ -1,7 +1,6 @@
 import ephem
 import numpy as np
 from datetime import datetime,timedelta
-import pandas as pd
 import math
 
 def get_sunset_time(lat, lon, date,elevation=0,pressure=1013.25, horizon='0', epoch='2000'):

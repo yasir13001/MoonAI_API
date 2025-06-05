@@ -2,10 +2,8 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from datetime import datetime
 import pytz
-from Moon_Calculations  import get_moon_parameters,calculate_q_and_visibility, get_sunset_time
-from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse,PlainTextResponse
-import os
+from Moon_Calculations  import get_moon_parameters, get_sunset_time
+from fastapi.responses import FileResponse
 from typing import Optional
 
 app = FastAPI()
