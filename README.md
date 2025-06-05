@@ -11,7 +11,7 @@ This is a FastAPI-based web service that provides astronomical data for the **mo
   - Altitude, azimuth
   - Illumination
   - Angular diameter
-  - Elongation, crescent width
+  - Elongation, Illumination,crescent width
 - Determine **visibility** using Q and ARCV/ARCL models
 - Timezone-aware input support
 - Built for Python **3.6.13**
@@ -31,7 +31,7 @@ This is a FastAPI-based web service that provides astronomical data for the **mo
 
    ```bash
    git clone https://github.com/yasir13001/MoonAI_API.git
-   cd moon-data-api
+   cd to/project folder
    ```
 
 2. **Install dependencies**:
@@ -43,7 +43,7 @@ This is a FastAPI-based web service that provides astronomical data for the **mo
 3. **Run the server**:
 
    ```bash
-   uvicorn main:app --reload
+   uvicorn main:app --reload --host 0.0.0.0 --port 8080
    ```
 
 ---
@@ -60,16 +60,18 @@ POST /moon_data
 
 ```json
 {
+  "city": "Karachi"
   "lat": 24.8607,
   "lon": 67.0011,
   "elevation": 10,
-  "date": "28-02-2025",
+  "date": "06-05-2025",
   "timezone": "Asia/Karachi"
 }
 ```
 
 | Field       | Type   | Description                             |
 | ----------- | ------ | --------------------------------------- |
+| `city`      | string | Optional               |
 | `lat`       | float  | Latitude of the location                |
 | `lon`       | float  | Longitude of the location               |
 | `elevation` | float  | Elevation above sea level in meters     |
@@ -80,23 +82,38 @@ POST /moon_data
 
 ```json
 {
-  "moon_altitude": 13.5,
-  "moon_azimuth": 123.4,
-  "sun_altitude": -2.1,
-  "sun_azimuth": 245.2,
-  "arcv": 7.1,
-  "arcl": 9.2,
-  "crescent_width": 0.12,
-  "moon_phase": "waxing crescent",
-  "moon_illumination": 0.32,
-  "moon_angular_diameter": 29.8,
-  "moon_distance_au": 0.0025,
-  "daz": 15.3,
-  "elongation": 12.8,
-  "sunset_time": "2025-02-28T18:12:00+05:00",
-  "moonset_time": "2025-02-28T19:03:00+05:00",
-  "moon_age": "2.3 days",
-  "conj_time": "2025-02-26T07:34:00Z"
+    "date": "2025-05-06",
+    "location": {
+        "city": "Karachi",
+        "latitude": 24.8607,
+        "longitude": 67.0011,
+        "elevation": 10.0,
+        "horizon": 0,
+        "epoch": 2000
+    },
+    "moon": {
+        "conj_time": "19:31:05.832017",
+        "moon_altitude": 66.0618,
+        "moon_azimuth": 127.6396,
+        "arcv": 66.3244,
+        "arcl": 113.1291,
+        "crescent_width": 0.0063,
+        "moon_phase": 69.7402,
+        "moon_illumination": 69.6,
+        "moon_angular_diameter": 30.5158,
+        "moon_distance_au": 0.0026,
+        "elongation": 113.1291,
+        "moonset_time": "21:46:21.874486",
+        "moon_age": "210 hrs 33 mins",
+        "q_value": 5.68,
+        "visibility_criterion": "A"
+    },
+    "sun": {
+        "sun_altitude": -0.2626,
+        "sun_azimuth": 288.9104,
+        "sunset_time": "14:04:40.216956",
+        "daz": 161.2708
+    }
 }
 ```
 
@@ -107,19 +124,11 @@ POST /moon_data
 All dependencies are listed in `requirements.txt`. Key libraries used:
 
 * `fastapi`
+* `pydantic`
 * `uvicorn`
 * `ephem`
-* `skyfield`
-* `numpy`
-* `astropy`
-* `pandas`
 * `pytz`
-
----
-
-## ⚠️ Python 3.6 Notice
-
-This project supports **Python 3.6.13**, which is **end-of-life**. Future updates may require Python 3.8+.
+* `datetime`
 
 ---
 
