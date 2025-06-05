@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -7,37 +7,41 @@
     body {
       font-family: Arial, sans-serif;
       margin: 0;
-      padding: 0;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      padding: 40px;
       background: linear-gradient(to right, #e0f7fa, #f1f8e9);
-    }
-
-    .container {
-      background-color: white;
-      padding: 30px;
-      border-radius: 16px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-      max-width: 500px;
-      width: 100%;
-      box-sizing: border-box;
     }
 
     h2 {
       text-align: center;
-      margin-bottom: 20px;
+      margin-bottom: 30px;
+    }
+
+    .form-output-wrapper {
+      display: flex;
+      gap: 30px;
+      align-items: flex-start;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    form {
+      background-color: #ffffffdd;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      flex: 1;
+      min-width: 300px;
+      max-width: 400px;
     }
 
     input, select, button {
-      padding: 10px;
+      padding: 8px;
       margin: 8px 0;
       width: 100%;
-      box-sizing: border-box;
-      border-radius: 8px;
+      max-width: 100%;
       border: 1px solid #ccc;
-      font-size: 14px;
+      border-radius: 6px;
+      box-sizing: border-box;
     }
 
     label {
@@ -49,9 +53,9 @@
     button {
       background-color: #00796b;
       color: white;
-      cursor: pointer;
       border: none;
-      transition: background-color 0.3s ease;
+      cursor: pointer;
+      margin-top: 15px;
     }
 
     button:hover {
@@ -59,20 +63,40 @@
     }
 
     #output {
-      margin-top: 20px;
+      background-color: #1e1e1e;
+      color: #d4d4d4;
+      padding: 20px;
+      border-radius: 10px;
+      font-family: monospace;
+      overflow-x: auto;
       white-space: pre-wrap;
-      background-color: #f9f9f9;
-      padding: 15px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      font-size: 14px;
+      word-break: break-word;
+      flex: 1;
+      min-width: 300px;
+      max-width: 600px;
     }
+   #output span.string {
+      color: #ce9178;
+    }
+    #output span.number {
+      color: #b5cea8;
+    }
+    #output span.boolean {
+      color: #569cd6;
+    }
+    #output span.null {
+      color: #dcdcaa;
+    }
+    #output span.key {
+      color: #9cdcfe;
+    }
+
   </style>
 </head>
 <body>
-  <div class="container">
-    <h2>🌙 Moon Data Request</h2>
+  <h2>🌙 Moon Data Request</h2>
 
+  <div class="form-output-wrapper">
     <form id="moonForm">
       <label for="city">City (optional):</label>
       <input type="text" id="city" placeholder="e.g., Karachi" />
@@ -107,50 +131,75 @@
   </div>
 
   <script>
-    const form = document.getElementById('moonForm');
-    const output = document.getElementById('output');
+    const form = document.getElementById("moonForm");
+    const output = document.getElementById("output");
 
-    form.addEventListener('submit', async function (e) {
+    form.addEventListener("submit", async function (e) {
       e.preventDefault();
 
-      const lat = parseFloat(document.getElementById('lat').value);
-      const lon = parseFloat(document.getElementById('lon').value);
-      const elevation = parseFloat(document.getElementById('elevation').value);
-      const date = document.getElementById('date').value;
-      const timezone = document.getElementById('timezone').value;
+      const lat = parseFloat(document.getElementById("lat").value);
+      const lon = parseFloat(document.getElementById("lon").value);
+      const elevation = parseFloat(document.getElementById("elevation").value);
+      const date = document.getElementById("date").value;
+      const timezone = document.getElementById("timezone").value;
       const city = document.getElementById("city").value.trim();
 
       const payload = {
-        lat: lat,
-        lon: lon,
-        elevation: elevation,
-        date: date,
-        timezone: timezone
+        lat,
+        lon,
+        elevation,
+        date,
+        timezone
       };
+
       if (city !== "") {
         payload.city = city;
       }
 
-
       try {
-        const response = await fetch('/moon_data', {
-          method: 'POST',
+        const response = await fetch("/moon_data", {
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json'
+            "Content-Type": "application/json"
           },
           body: JSON.stringify(payload)
         });
 
         if (!response.ok) {
-          throw new Error('Server error: ' + response.status);
+          throw new Error("Server error: " + response.status);
         }
 
         const data = await response.json();
-        output.textContent = JSON.stringify(data, null, 2);
+        output.innerHTML = syntaxHighlight(data);
       } catch (error) {
-        output.textContent = 'Error: ' + error.message;
+        output.textContent = "Error: " + error.message;
       }
     });
+
+    function syntaxHighlight(json) {
+      if (typeof json != "string") {
+        json = JSON.stringify(json, undefined, 2);
+      }
+      json = json.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+      return json.replace(
+        /("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\\s*:)?|\b(true|false|null)\b|\b[\d.]+\b)/g,
+        function (match) {
+          let cls = "number";
+          if (/^"/.test(match)) {
+            if (/:$/.test(match)) {
+              cls = "key";
+            } else {
+              cls = "string";
+            }
+          } else if (/true|false/.test(match)) {
+            cls = "boolean";
+          } else if (/null/.test(match)) {
+            cls = "null";
+          }
+          return `<span class="${cls}">${match}</span>`;
+        }
+      );
+    }
   </script>
 </body>
 </html>

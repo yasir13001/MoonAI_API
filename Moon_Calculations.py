@@ -121,9 +121,10 @@ def get_moon_parameters(obs_date, lat, lon, elevation,city,pressure=1013.25, hor
 
     data = {
         "date":obs_date.date(),
-        "city": city,
+
         "location":
         {
+            "city": city,
             "latitude":lat,
             "longitude": lon,
             "elevation": elevation,
