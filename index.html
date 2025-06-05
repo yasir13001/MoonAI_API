@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -6,61 +6,105 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      margin: 40px;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(to right, #e0f7fa, #f1f8e9);
     }
-    input, select, button {
-      padding: 6px;
-      margin: 5px 0;
+
+    .container {
+      background-color: white;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      max-width: 500px;
       width: 100%;
-      max-width: 300px;
+      box-sizing: border-box;
     }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    input, select, button {
+      padding: 10px;
+      margin: 8px 0;
+      width: 100%;
+      box-sizing: border-box;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+
     label {
       font-weight: bold;
+      display: block;
+      margin-top: 10px;
     }
+
+    button {
+      background-color: #00796b;
+      color: white;
+      cursor: pointer;
+      border: none;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #004d40;
+    }
+
     #output {
       margin-top: 20px;
       white-space: pre-wrap;
       background-color: #f9f9f9;
       padding: 15px;
       border: 1px solid #ccc;
-      max-width: 800px;
+      border-radius: 8px;
+      font-size: 14px;
     }
   </style>
 </head>
 <body>
-  <h2>🌙 Moon Data Request</h2>
+  <div class="container">
+    <h2>🌙 Moon Data Request</h2>
 
-  <form id="moonForm">
-    <label for="city">City (optional):</label><br>
-    <input type="text" id="city" placeholder="e.g., Karachi" /><br>
+    <form id="moonForm">
+      <label for="city">City (optional):</label>
+      <input type="text" id="city" placeholder="e.g., Karachi" />
 
-    <label for="lat">Latitude:</label><br>
-    <input type="number" id="lat" step="any" required /><br>
+      <label for="lat">Latitude:</label>
+      <input type="number" id="lat" step="any" required />
 
-    <label for="lon">Longitude:</label><br>
-    <input type="number" id="lon" step="any" required /><br>
+      <label for="lon">Longitude:</label>
+      <input type="number" id="lon" step="any" required />
 
-    <label for="elevation">Elevation (meters):</label><br>
-    <input type="number" id="elevation" value="0" /><br>
+      <label for="elevation">Elevation (meters):</label>
+      <input type="number" id="elevation" value="0" />
 
-    <label for="date">Date (dd-mm-yyyy):</label><br>
-    <input type="text" id="date" placeholder="28-02-2025" required /><br>
+      <label for="date">Date (dd-mm-yyyy):</label>
+      <input type="text" id="date" placeholder="28-02-2025" required />
 
-    <label for="timezone">Timezone:</label><br>
-    <select id="timezone" required>
-      <option value="">--Select Timezone--</option>
-      <option value="Asia/Karachi">Asia/Karachi</option>
-      <option value="UTC">UTC</option>
-      <option value="Asia/Dubai">Asia/Dubai</option>
-      <option value="Asia/Riyadh">Asia/Riyadh</option>
-      <option value="America/New_York">America/New_York</option>
-      <option value="Europe/London">Europe/London</option>
-    </select><br><br>
+      <label for="timezone">Timezone:</label>
+      <select id="timezone" required>
+        <option value="">--Select Timezone--</option>
+        <option value="Asia/Karachi">Asia/Karachi</option>
+        <option value="UTC">UTC</option>
+        <option value="Asia/Dubai">Asia/Dubai</option>
+        <option value="Asia/Riyadh">Asia/Riyadh</option>
+        <option value="America/New_York">America/New_York</option>
+        <option value="Europe/London">Europe/London</option>
+      </select>
 
-    <button type="submit">Get Moon Data</button>
-  </form>
+      <button type="submit">Get Moon Data</button>
+    </form>
 
-  <div id="output"></div>
+    <div id="output"></div>
+  </div>
 
   <script>
     const form = document.getElementById('moonForm');
