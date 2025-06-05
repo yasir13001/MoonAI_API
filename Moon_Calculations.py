@@ -56,7 +56,7 @@ def time_zone(time,zone):
     time = time + timedelta(hours=zone)  # Manually add UTC+5
     return time
 
-def get_moon_parameters(obs_date, lat, lon, elevation=0, pressure=1013.25, horizon='0', epoch='2000',):
+def get_moon_parameters(obs_date, lat, lon, elevation,city,pressure=1013.25, horizon='0', epoch='2000'):
     """Calculate Moon and Sun parameters using PyEphem."""
     
     observer = ephem.Observer()
@@ -121,13 +121,14 @@ def get_moon_parameters(obs_date, lat, lon, elevation=0, pressure=1013.25, horiz
 
     data = {
         "date":obs_date.date(),
+        "city": city,
         "location":
         {
             "latitude":lat,
             "longitude": lon,
             "elevation": elevation,
-            "horizon": horizon,
-            "epoch": epoch
+            "horizon": int(horizon),
+            "epoch": int(epoch)
         },
        "moon":{
             "conj_time": conjunction_utc.time(),

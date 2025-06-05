@@ -118,6 +118,7 @@
       const elevation = parseFloat(document.getElementById('elevation').value);
       const date = document.getElementById('date').value;
       const timezone = document.getElementById('timezone').value;
+      const city = document.getElementById("city").value.trim();
 
       const payload = {
         lat: lat,
@@ -126,6 +127,10 @@
         date: date,
         timezone: timezone
       };
+      if (city !== "") {
+        payload.city = city;
+      }
+
 
       try {
         const response = await fetch('/moon_data', {

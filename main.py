@@ -6,6 +6,7 @@ from Moon_Calculations  import get_moon_parameters,calculate_q_and_visibility, g
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse,PlainTextResponse
 import os
+from typing import Optional
 
 app = FastAPI()
 
@@ -22,6 +23,7 @@ class MoonRequest(BaseModel):
     elevation: float = 0.0
     date: str  # Expected format "dd-mm-yyyy"
     timezone: str
+    city: Optional[str] = None
 
 @app.post("/moon_data")
 def moon_data(request: MoonRequest):
@@ -43,7 +45,8 @@ def moon_data(request: MoonRequest):
     sunset_dt = get_sunset_time(request.lat, request.lon, obs_date, request.elevation)
         
     # Use sunset time to get moon parameters
-    moon_params = get_moon_parameters(sunset_dt, request.lat, request.lon, request.elevation)
+    moon_params = get_moon_parameters(sunset_dt, request.lat, request.lon, request.elevation,request.city)
+
 
     return moon_params
 
