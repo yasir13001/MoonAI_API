@@ -100,7 +100,7 @@ def get_moon_parameters(obs_date, lat, lon, elevation=0, pressure=1013.25, horiz
     sunset = obs_date
 
     try:
-        moonset = observer.next_setting(moon).datetime().strftime('%Y/%m/%d %H:%M:%S')
+        moonset = observer.next_setting(moon).datetime()
     except ephem.AlwaysUpError:
         moonset = "Moon always up"
     except ephem.NeverUpError:
@@ -116,7 +116,11 @@ def get_moon_parameters(obs_date, lat, lon, elevation=0, pressure=1013.25, horiz
     moon_age_str = f"{moon_age_hours} hrs {moon_age_minutes} mins"
     conjunction_utc = ephem.Date(conjunction_time).datetime()
 
+    def rnd (value):
+        return round(value,4)
+
     data = {
+        "date":obs_date.date(),
         "location":
         {
             "latitude":lat,
@@ -126,27 +130,27 @@ def get_moon_parameters(obs_date, lat, lon, elevation=0, pressure=1013.25, horiz
             "epoch": epoch
         },
        "moon":{
-            "conj_time": conjunction_utc,
-            "moon_altitude": moon_alt,
-            "moon_azimuth": moon_az,
-            "arcv": arcv,
-            "arcl": arcl,
-            "crescent_width": w,
-            "moon_phase": moon_phase,
-            "moon_illumination": illumination,
-            "moon_angular_diameter": moon_ang_diam,
-            "moon_distance_au": moon_dist,
-            "elongation": elongation,
-            "moonset_time": moonset,
+            "conj_time": conjunction_utc.time(),
+            "moon_altitude": rnd(moon_alt),
+            "moon_azimuth": rnd(moon_az),
+            "arcv": rnd(arcv),
+            "arcl": rnd(arcl),
+            "crescent_width": rnd(w),
+            "moon_phase": rnd(moon_phase),
+            "moon_illumination": rnd(illumination),
+            "moon_angular_diameter": rnd(moon_ang_diam),
+            "moon_distance_au": rnd(moon_dist),
+            "elongation": rnd(elongation),
+            "moonset_time": moonset.time(),
             "moon_age": moon_age_str,
-            "q_value": q_value,
+            "q_value": rnd(q_value),
             "visibility_criterion": visibility_criterion
        },
        "sun": {
-            "sun_altitude": sun_alt,
-            "sun_azimuth": sun_az,
-             "sunset_time": sunset,
-             "daz": daz,
+            "sun_altitude": rnd(sun_alt),
+            "sun_azimuth": rnd(sun_az),
+             "sunset_time": sunset.time(),
+             "daz": rnd(daz),
        }
     }
     return data
