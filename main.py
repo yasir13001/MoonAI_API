@@ -41,14 +41,9 @@ def moon_data(request: MoonRequest):
 
     # Calculate sunset datetime
     sunset_dt = get_sunset_time(request.lat, request.lon, obs_date, request.elevation)
-    
+        
     # Use sunset time to get moon parameters
     moon_params = get_moon_parameters(sunset_dt, request.lat, request.lon, request.elevation)
-    
-    # Calculate visibility and other derived info
-    visibility = calculate_q_and_visibility(moon_params)
 
-    # Assume moon_params and visibility are dictionaries or objects you can merge
-    result = {**moon_params, **visibility}
+    return moon_params
 
-    return result
