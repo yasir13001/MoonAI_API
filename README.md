@@ -53,7 +53,7 @@ This is a FastAPI-based web service that provides astronomical data for the **mo
 ### Endpoint
 
 ```
-POST /moon_data
+POST https://moonai-api.onrender.com/moon_data
 ```
 
 ### Request Body (JSON)
