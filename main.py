@@ -5,8 +5,20 @@ import pytz
 from Moon_Calculations  import get_moon_parameters, get_sunset_time
 from fastapi.responses import FileResponse
 from typing import Optional
+from fastapi.middleware.cors import CORSMiddleware
+
 
 app = FastAPI()
+
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Adjust for security
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 # Serve index.html at the root URL
 @app.get("/")
