@@ -3,5 +3,6 @@ services:
     name: moonai-api
     env: python
     buildCommand: ""
-    startCommand: uvicorn main:app --host 0.0.0.0 --port 10000
     plan: free
+    buildCommand: pip install --upgrade pip setuptools wheel
+    startCommand: uvicorn main:app --host 0.0.0.0 --port 10000
