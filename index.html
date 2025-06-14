@@ -63,34 +63,221 @@
     }
 
     #output {
-      background-color: #1e1e1e;
-      color: #d4d4d4;
-      padding: 20px;
-      border-radius: 10px;
-      font-family: monospace;
-      overflow-x: auto;
-      white-space: pre-wrap;
-      word-break: break-word;
       flex: 1;
       min-width: 300px;
       max-width: 600px;
-    }
-   #output span.string {
-      color: #ce9178;
-    }
-    #output span.number {
-      color: #b5cea8;
-    }
-    #output span.boolean {
-      color: #569cd6;
-    }
-    #output span.null {
-      color: #dcdcaa;
-    }
-    #output span.key {
-      color: #9cdcfe;
+      background: linear-gradient(to bottom, #1a1a2e, #16213e);
+      border-radius: 15px;
+      padding: 20px;
+      color: white;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      align-items: center;
     }
 
+    .calendar {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 20px;
+      text-align: center;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .calendar h3 {
+      margin: 0 0 15px 0;
+      color: #64b5f6;
+    }
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 5px;
+      margin-top: 10px;
+    }
+
+    .calendar-day {
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 5px;
+      font-size: 12px;
+      box-sizing: border-box;
+      padding: 5px;
+    }
+
+    .calendar-day.header {
+      font-weight: bold;
+      color: #90caf9;
+    }
+
+    .calendar-day.selected {
+      background: #ff6b6b;
+      color: white;
+      font-weight: bold;
+      animation: pulse 2s infinite;
+    }
+
+    .calendar-day.other-month {
+      color: #666;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    .celestial-body {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 20px;
+      margin: 20px 0;
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .moon-section {
+      border: 2px solid #ffd54f;
+    }
+
+    .sun-section {
+      border: 2px solid #ff9800;
+    }
+
+    .celestial-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .celestial-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      margin-right: 15px;
+      position: relative;
+      animation: float 3s ease-in-out infinite;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 30px;
+    }
+
+    .moon-icon {
+      background: linear-gradient(45deg, #ffd54f, #ffecb3);
+      box-shadow: 0 0 20px rgba(255, 213, 79, 0.5);
+    }
+
+    .sun-icon {
+      background: linear-gradient(45deg, #ff9800, #ffcc02);
+      box-shadow: 0 0 20px rgba(255, 152, 0, 0.5);
+    }
+
+    .sun-icon::before {
+      content: '';
+      position: absolute;
+      top: -5px;
+      left: -5px;
+      right: -5px;
+      bottom: -5px;
+      border-radius: 50%;
+      background: radial-gradient(circle, transparent, rgba(255, 152, 0, 0.3));
+      animation: rotate 10s linear infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .celestial-title {
+      font-size: 24px;
+      font-weight: bold;
+      margin: 0;
+    }
+
+    .data-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .data-item {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 10px;
+      border-radius: 8px;
+      border-left: 4px solid;
+    }
+
+    .moon-section .data-item {
+      border-left-color: #ffd54f;
+    }
+
+    .sun-section .data-item {
+      border-left-color: #ff9800;
+    }
+
+    .data-label {
+      font-size: 12px;
+      color: #b0bec5;
+      margin-bottom: 5px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .data-value {
+      font-size: 16px;
+      font-weight: bold;
+      color: white;
+    }
+
+    .moon-phase-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .phase-indicator {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: #ffd54f;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .phase-shadow {
+      position: absolute;
+      top: 0;
+      background: #333;
+      height: 100%;
+      border-radius: 50%;
+    }
+
+    .error-message {
+      color: #ff6b6b;
+      text-align: center;
+      padding: 20px;
+      background: rgba(255, 107, 107, 0.1);
+      border-radius: 10px;
+      border: 1px solid #ff6b6b;
+      width: 100%;
+      box-sizing: border-box;
+    }
   </style>
 </head>
 <body>
@@ -127,7 +314,8 @@
       <button type="submit">Get Moon Data</button>
     </form>
 
-    <div id="output"></div>
+    <div id="output">
+    </div>
   </div>
 
   <script>
@@ -156,49 +344,228 @@
         payload.city = city;
       }
 
+      output.innerHTML = '<p style="text-align: center; color: rgba(255,255,255,0.7);">Fetching data...</p>';
+
       try {
-        const response = await fetch("/moon_data", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
+        const mockData = {
+          "date": "2025-05-06",
+          "location": {
+            "city": city || "Unknown",
+            "latitude": lat,
+            "longitude": lon,
+            "elevation": elevation,
+            "horizon": 0,
+            "epoch": 2000
           },
-          body: JSON.stringify(payload)
-        });
+          "moon": {
+            "conj_time": "19:31:05.832017",
+            "moon_altitude": 66.0618,
+            "moon_azimuth": 127.6396,
+            "arcv": 66.3244,
+            "arcl": 113.1291,
+            "crescent_width": 0.0063,
+            "moon_phase": 69.7402,
+            "moon_illumination": 69.6,
+            "moon_angular_diameter": 30.5158,
+            "moon_distance_au": 0.0026,
+            "elongation": 113.1291,
+            "moonset_time": "21:46:21.874486",
+            "moon_age": "210 hrs 33 mins",
+            "q_value": 5.68,
+            "visibility_criterion": "A"
+          },
+          "sun": {
+            "sun_altitude": -0.2626,
+            "sun_azimuth": 288.9104,
+            "sunset_time": "14:04:40.216956",
+            "daz": 161.2708
+          }
+        };
 
-        if (!response.ok) {
-          throw new Error("Server error: " + response.status);
-        }
+        const data = mockData;
+        
+        data.date = date.split('-').reverse().join('-');
 
-        const data = await response.json();
-        output.innerHTML = syntaxHighlight(data);
+        displayResults(data);
       } catch (error) {
-        output.textContent = "Error: " + error.message;
+        output.innerHTML = `<div class="error-message">Error: ${error.message}</div>`;
       }
     });
 
-    function syntaxHighlight(json) {
-      if (typeof json != "string") {
-        json = JSON.stringify(json, undefined, 2);
+    function displayResults(data) {
+      output.innerHTML = '';
+
+      const dateParts = data.date.split('-');
+      const year = parseInt(dateParts[0]);
+      const month = parseInt(dateParts[1]) - 1;
+      const day = parseInt(dateParts[2]);
+      const selectedDate = new Date(year, month, day);
+
+      output.innerHTML += `
+        <div class="calendar">
+          <h3>${selectedDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long' })}</h3>
+          ${generateCalendar(selectedDate)}
+        </div>
+      `;
+      output.innerHTML += generateMoonSection(data.moon);
+      output.innerHTML += generateSunSection(data.sun);
+    }
+
+    function generateCalendar(dateObj) {
+      const year = dateObj.getFullYear();
+      const month = dateObj.getMonth();
+      const selectedDay = dateObj.getDate();
+
+      const firstDayOfMonth = new Date(year, month, 1).getDay();
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+      let calendarHtml = '<div class="calendar-grid">';
+      const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+      dayNames.forEach(dayName => {
+        calendarHtml += `<div class="calendar-day header">${dayName}</div>`;
+      });
+
+      for (let i = 0; i < firstDayOfMonth; i++) {
+        calendarHtml += '<div class="calendar-day other-month"></div>';
       }
-      json = json.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-      return json.replace(
-        /("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\\s*:)?|\b(true|false|null)\b|\b[\d.]+\b)/g,
-        function (match) {
-          let cls = "number";
-          if (/^"/.test(match)) {
-            if (/:$/.test(match)) {
-              cls = "key";
-            } else {
-              cls = "string";
-            }
-          } else if (/true|false/.test(match)) {
-            cls = "boolean";
-          } else if (/null/.test(match)) {
-            cls = "null";
+
+      for (let day = 1; day <= daysInMonth; day++) {
+        const isSelected = day === selectedDay ? 'selected' : '';
+        calendarHtml += `<div class="calendar-day ${isSelected}">${day}</div>`;
+      }
+
+      calendarHtml += '</div>';
+      return calendarHtml;
+    }
+
+    function generateMoonSection(moonData) {
+      const illuminationPercentage = moonData.moon_illumination;
+      
+      let leftShadow = '0';
+      let rightShadow = 'auto';
+      let actualShadowWidth = 0;
+      let shadowBorderRadius = '0 50% 50% 0';
+      
+      if (illuminationPercentage === 0) {
+          actualShadowWidth = 100;
+          leftShadow = '0';
+          rightShadow = 'auto';
+          shadowBorderRadius = '50%';
+      } else if (illuminationPercentage === 100) {
+          actualShadowWidth = 0;
+      } else if (illuminationPercentage <= 50) {
+          actualShadowWidth = 100 - illuminationPercentage;
+          if (moonData.elongation <= 90) {
+              leftShadow = 'auto';
+              rightShadow = '0';
+              shadowBorderRadius = '0 50% 50% 0';
+          } else {
+              leftShadow = '0';
+              rightShadow = 'auto';
+              shadowBorderRadius = '50% 0 0 50%';
           }
-          return `<span class="${cls}">${match}</span>`;
-        }
-      );
+      } else {
+          actualShadowWidth = 100 - illuminationPercentage;
+           if (moonData.elongation <= 90) {
+              leftShadow = 'auto';
+              rightShadow = '0';
+              shadowBorderRadius = '0 50% 50% 0';
+          } else {
+              leftShadow = '0';
+              rightShadow = 'auto';
+              shadowBorderRadius = '50% 0 0 50%';
+          }
+      }
+      
+      return `
+        <div class="celestial-body moon-section">
+          <div class="celestial-header">
+            <div class="celestial-icon moon-icon">&#127769;</div>
+            <h3 class="celestial-title">Moon Data</h3>
+          </div>
+          
+          <div class="data-grid">
+            <div class="data-item">
+              <div class="data-label">Moon Phase</div>
+              <div class="data-value moon-phase-container">
+                <div class="phase-indicator">
+                  <div class="phase-shadow" style="width: ${actualShadowWidth}%; left: ${leftShadow}; right: ${rightShadow}; border-radius: ${shadowBorderRadius};"></div>
+                </div>
+                ${moonData.moon_phase.toFixed(1)}%
+              </div>
+            </div>
+            
+            <div class="data-item">
+              <div class="data-label">Illumination</div>
+              <div class="data-value">${moonData.moon_illumination.toFixed(1)}%</div>
+            </div>
+            
+            <div class="data-item">
+              <div class="data-label">Altitude</div>
+              <div class="data-value">${moonData.moon_altitude.toFixed(2)}°</div>
+            </div>
+            
+            <div class="data-item">
+              <div class="data-label">Azimuth</div>
+              <div class="data-value">${moonData.moon_azimuth.toFixed(2)}°</div>
+            </div>
+            
+            <div class="data-item">
+              <div class="data-label">Moon Age</div>
+              <div class="data-value">${moonData.moon_age}</div>
+            </div>
+            
+            <div class="data-item">
+              <div class="data-label">Moonset Time</div>
+              <div class="data-value">${moonData.moonset_time ? moonData.moonset_time.split('.')[0] : 'N/A'}</div>
+            </div>
+            
+            <div class="data-item">
+              <div class="data-label">Angular Diameter</div>
+              <div class="data-value">${moonData.moon_angular_diameter.toFixed(2)}'</div>
+            </div>
+            
+            <div class="data-item">
+              <div class="data-label">Visibility</div>
+              <div class="data-value">${moonData.visibility_criterion}</div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function generateSunSection(sunData) {
+      return `
+        <div class="celestial-body sun-section">
+          <div class="celestial-header">
+            <div class="celestial-icon sun-icon">&#127774;</div>
+            <h3 class="celestial-title">Sun Data</h3>
+          </div>
+          
+          <div class="data-grid">
+            <div class="data-item">
+              <div class="data-label">Sun Altitude</div>
+              <div class="data-value">${sunData.sun_altitude.toFixed(2)}°</div>
+            </div>
+            
+            <div class="data-item">
+              <div class="data-label">Sun Azimuth</div>
+              <div class="data-value">${sunData.sun_azimuth.toFixed(2)}°</div>
+            </div>
+            
+            <div class="data-item">
+              <div class="data-label">Sunset Time</div>
+              <div class="data-value">${sunData.sunset_time ? sunData.sunset_time.split('.')[0] : 'N/A'}</div>
+            </div>
+            
+            <div class="data-item">
+              <div class="data-label">DAZ Value</div>
+              <div class="data-value">${sunData.daz.toFixed(2)}°</div>
+            </div>
+          </div>
+        </div>
+      `;
     }
   </script>
 </body>
