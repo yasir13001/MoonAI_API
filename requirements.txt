@@ -5,3 +5,6 @@ numpy==1.19.5
 skyfield==1.39
 ephem
 pandas==1.1.5
+setuptools>=68.0.0
+wheel
+pip>=23.1
